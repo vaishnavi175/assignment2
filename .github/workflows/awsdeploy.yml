@@ -1,4 +1,4 @@
-# aws
+# aws deploy
 name: Deployment to AWS
 
 on:
