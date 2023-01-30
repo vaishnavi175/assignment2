@@ -27,6 +27,36 @@ jobs:
         name: react-github-actions-build
         path: build
   
+deploy-to-gcs:
+    runs-on: ubuntu-latest
+    name: Deploy to GCP
+    needs: build
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Download artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: react-github-actions-build
+      
+      - name: GCP authentication
+        id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      - name: Transfer build folder to cloud storage
+        id: 'upload-folder'
+        uses: 'google-github-actions/upload-cloud-storage@v1'
+        with:
+          path: react-github-actions-build
+          destination: 'assignment2.vaishnavi.shop'
+          parent: false
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -47,3 +77,5 @@ jobs:
       - name: Deploy to S3
         run: aws s3 sync . s3://assign02 --delete
         working-directory: react-github-actions-build
+
+      
