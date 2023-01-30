@@ -1,5 +1,4 @@
-# aws deployment
-name: Deployment to AWS
+name: Deployment to AWS and GCP
 
 on:
   push:
@@ -27,7 +26,7 @@ jobs:
         name: react-github-actions-build
         path: build
   
-deploy-to-gcs:
+deploy-to-gcp:
     runs-on: ubuntu-latest
     name: Deploy to GCP
     needs: build
@@ -57,7 +56,7 @@ deploy-to-gcs:
           destination: 'assignment2.vaishnavi.shop'
           parent: false
 
-  deploy:
+  deploy-aws:
     runs-on: ubuntu-latest
     needs: build
     steps:
