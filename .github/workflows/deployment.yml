@@ -1,4 +1,4 @@
-name: Deployment to AWS and GCP
+name: Deployment to AWS and GCP 
 
 on:
   push:
